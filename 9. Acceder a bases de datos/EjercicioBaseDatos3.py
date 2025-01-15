@@ -55,6 +55,12 @@ class Lectores:
         self.nombre = nombre
         self.correo = correo
 
+    def registraLectores():
+        try:
+            cursor.execute("")
+        except Exception as e:
+            print(f"Error: {e}")   
+
 class Prestamos:
     def __init__(self, id_lector, id_libro, fecha_prestamo, fecha_devolucion):
         self.id_lector = id_lector
@@ -75,5 +81,24 @@ def menu():
 
         match(opcion):
             case 1:
+                titulo = input("Dime el título: ")
+                autor = input("Dime el autor: ")
+                anio_publicacion = int(input("Dime el año de publicación: "))
+                cantidad_disponible = int(input("Dime el stock de ese libro: "))
+
+                newLibro = Libros(titulo, autor, anio_publicacion, cantidad_disponible)
+
+                Libros.registraLibro(newLibro)
+            
+            case 2:
+                nombre = input("Dime el nombre del lector: ")
+                correo = input("Dime el email del lector: ")
+
+                newLector = Lectores(nombre, correo)
+
+                Lectores.registraLectores(newLector)
+
+            case 3:
+
 
 
