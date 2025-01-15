@@ -3,53 +3,55 @@ import sqlite3
 
 conn = sqlite3.connect('Tienda.db')
 
-conn = conn.cursor()
+cursor = conn.cursor()
+
+#Crear tabla
+cursor.execute('''
+               CREATE TABLE IF NOT EXISTS Productos(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT,
+                precio DECIMAL,
+                stock INT
+                )
+               ''')
 
 #Creación de clases
-class Tienda:
-    def __init__(self, nombre, lugar):
-        self.nombre = nombre
-        self.lugar = lugar
-
 class Productos:
     def __init__(self, nombre, precio, stock):
         self.nombre = nombre
         self.precio = precio
         self.stock = stock
 
-#Creación de diccionario
-diccionario = {}
+class Tienda:
+    def __init__(self, db_nombre="tienda.db"):
+        self.db_nombre = db_nombre
+        self.productos = {}
+        self._initialite_database()
 
-producto1 = Productos("Bocadillo de atún", 2.50, 8)
-producto2 = Productos("Yatekomo", 1.00, 12)
+    def addProducto(self, Productos):
+        if Productos.nombre in self.productos:
+            print("Ese producto ya existe")
+        else:
+            self.productos[Productos.nombre] = Productos
+            print(f"Se ha agregago {Productos.nombre} a la tienda")
 
-diccionario[1] = {"nombre":producto1.nombre,"precio":producto1.precio,"stock":producto1.stock}
-diccionario[2] = {"nombre":producto2.nombre,"precio":producto2.precio,"stock":producto2.stock}
+    def eliminarProducto(self):
+        product = input("Dime el nombre de un producto para borrarlo: ")
 
-def aniadirProducto():
-    id = int(input("Dime el id del producto: "))
-    nombre = input("Dime el nombre del producto: ")
-    precio = float(input("Dime el precio del producto: "))
-    stock = int(input("Dime el stock del producto: "))
+        if product in self.productos:
+            valor_eliminado = self.productos.pop(product)
+            print(f"{valor_eliminado} eliminado")
+        else:
+            print("Ese producto no existe")
 
-    productoA = Productos(nombre, precio, stock)
+    def listarProductos(self):
+        with sqlite3.connect(self.db_nombre) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, nombre, precio, stock FROM productos")
+            productos = cursor.fetchall()
+            print("Lista de productos que hay en la tienda: ")
+            for prod in productos:
+                print(prod)
 
-    diccionario[id] = {"nombre":productoA.nombre,"precio":productoA.precio,"stock":productoA.stock}
-
-def menu():
-    while(True):
-        print("OPCIONES")
-        print("1. Introducir producto")
-        print("2. Ver productos")
-        print("3. Eliminar producto")
-        print("4. Salir")
-
-        opcion = 0
-
-    match opcion:
-        case 1:
-            aniadirProducto()
-
-
-
+    
 
