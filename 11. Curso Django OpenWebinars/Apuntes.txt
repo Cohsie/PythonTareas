@@ -1,0 +1,7 @@
+django-admin startproject mysite
+
+manage.py -> 
+
+setting.py -> Configuración del proyecto
+
+Eneste proyecto se va a trabajar con MySQL, no con SQLite
