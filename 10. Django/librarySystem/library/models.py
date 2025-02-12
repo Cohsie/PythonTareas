@@ -71,3 +71,7 @@ class Loan(models.Model):
     max_length=100,
     default=''
     )
+    return_date=models.DateField(verbose_name='FechaReturn',
+    max_length=100,
+    default=''
+    )
