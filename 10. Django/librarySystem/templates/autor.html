@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{%block title%} Listado de Autores {%endblock title%}
+
+{%block content%}
+<ul>
+    {% for aut in authors %}
+        <li>{{ aut }}</li>
+        <li>{{ aut.name }}</li>
+    {% endfor %}
+</ul>
+<div><a href="">Registrar nuevo autor</a></div>
+{%endblock content%}
